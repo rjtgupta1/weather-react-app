@@ -45,7 +45,7 @@ function App() {
                 <p> { weather?.weather[0]?.main} </p>
               </div>
               :
-              !weather.name && isFetched ? <p>Please enter correct city/town name</p> : null
+              !weather.name && isFetched ? <div className='errorMessage'> <p>Please enter correct city/town name</p> </div> : null
             }
 
           </div>

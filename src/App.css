@@ -107,3 +107,20 @@
 .btn:hover{
   border-radius: 25px 0px;
 }
+
+.errorMessage{
+  text-align: center;
+  margin-top: -220px;
+  color: crimson;
+  transition: all 1.5s;
+}
+
+.errorMessage p{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  font-size: large;
+  background: rgb(248, 255, 120);
+  text-shadow: 1px 2px 2px #fff, -1px -1px 2px #fff;
+}
