@@ -1,7 +1,8 @@
 import './App.css';
 import React,{ useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import { addCity } from './redux/weatherSlice'
+import ShowDetails from './components/ShowDetails';
 
 function App() {
 
@@ -13,7 +14,9 @@ function App() {
   const [city,setCity] = useState("");
   const [weather,setWeather] = useState({});
   const [isFetched,setIsFetched] = useState(false);
+  const [isBlank,setIsBlank] = useState(false);
   const dispatch = useDispatch();
+  const cityData = useSelector(state => state.cities)
 
     async function fetchData(){
       const uri = `${api.base}?q=${city}&units=metric&appid=${api.key}`;
@@ -22,13 +25,20 @@ function App() {
       setIsFetched(true);
       if(data.name && city){
         setWeather(data);
+        setIsBlank(false);
       }else{
         setWeather({});
+        setIsBlank(true);
       }
     }
 
     function addCityToDashboard(){
-      dispatch(addCity(city))
+      if(city==='')
+        setIsBlank(true)
+      else{
+        dispatch(addCity(city))
+        setIsBlank(false)
+      }
     }
 
 
@@ -46,16 +56,16 @@ function App() {
             </div>
 
             {
-              Object.keys(weather).length>0
+              Object.keys(weather).length>0 || Object.keys(cityData).length>0
               ?
-              <div className='weatherDetails'>
-                <p> { weather?.name} </p>
-                <p> { weather?.main?.temp+" ℃"} </p>
-                <p> { weather?.weather[0]?.main} </p>
-                <img alt='weatherImage' src={`https://openweathermap.org/img/wn/${weather?.weather[0]?.icon}.png`}></img>
-              </div>
+              <>
+              {isFetched && weather.name ? <ShowDetails key={weather.id} {...weather} /> : isBlank ? <div className='errorMessage'> <p>Please enter correct city/town name</p> </div> : null}
+              {cityData.map((location) => {
+                return <ShowDetails key={location.id} {...location} />
+              })}
+              </>
               :
-              !weather.name && isFetched ? <div className='errorMessage'> <p>Please enter correct city/town name</p> </div> : null
+              null
             }
 
           </div>

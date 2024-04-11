@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    cities:[{}]
+    cities:[{
+        id:Date.now(),
+        location:null
+    }]
 }
 
 export const citySlice = createSlice({
@@ -11,7 +14,7 @@ export const citySlice = createSlice({
         addCity:(state,action)=>{
             const city ={
                 id:Date.now(),
-                text:action.payload
+                location:action.payload
             }
             state.cities.push(city)
         },
