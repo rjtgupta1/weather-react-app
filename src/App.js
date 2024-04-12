@@ -26,6 +26,7 @@ function App() {
       if(data.name && city){
         setWeather(data);
         setIsBlank(false);
+        setCity("")
       }else{
         setWeather({});
         setIsBlank(true);
@@ -33,17 +34,29 @@ function App() {
     }
 
     function addCityToDashboard(){
-      if(city==='')
+      if(!city){
+        setIsFetched(true)
         setIsBlank(true)
+      }
       else{
         dispatch(addCity(city))
         setIsBlank(false)
       }
     }
 
+    function showErrorMessage(){
+      const item = document.querySelector('#errorNotification')
+      item.classList.remove("hideErrorMessage");
+      setTimeout(()=>{
+        item.classList.add("hideErrorMessage")
+      },1200)
+      setIsFetched(false)
+    }
+
 
   return (
     <>
+    <div id='errorNotification' className='hideErrorMessage errorMessage'> <p>Please enter correct city/town name</p> </div>
       <div className='container'>
           <div className='weatherBox'>
             <div className='backgroundImage'></div>
@@ -59,7 +72,7 @@ function App() {
               Object.keys(weather).length>0 || Object.keys(cityData).length>0
               ?
               <>
-              {isFetched && weather.name ? <ShowDetails key={weather.id} {...weather} /> : isBlank ? <div className='errorMessage'> <p>Please enter correct city/town name</p> </div> : null}
+              {isFetched && weather.name ? <ShowDetails key={weather.id} {...weather} /> : (isBlank && isFetched) ? <> { showErrorMessage() } </> : null}
               {cityData.map((location) => {
                 return <ShowDetails key={location.id} {...location} />
               })}

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ShowDetails = (location) => {
-    console.log(location)
+    // console.log(location)
   return (
     location.location || location.name
     ?
