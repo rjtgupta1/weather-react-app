@@ -47,19 +47,21 @@
 }
 
 .weatherBox{
-  height: 65vh;
-  width: 40vw;
-  border: 1px solid gray;
+  min-height: 65vh;
+  /* margin: 30px 0px; */
+  width: 45vw;
+  border: 2px solid gray;
   border-radius: 50px;
 }
 
 .backgroundImage{
   background-image: url("../public/weather.jpg");
-  background-size:contain;
+  background-size:cover;
   background-repeat: no-repeat;
-  height: inherit;
-  width: inherit;
-  margin-top: 1.5%;
+  background-attachment: fixed;
+  background-position: center;
+  height: 100%;
+  width: 100%;
   position:absolute;
   border-radius: inherit;
   z-index: -1;
@@ -76,7 +78,11 @@
 }
 
 .inputArea{
-  margin: 2% 5%; 
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 20px 0px;
+  padding: 10px 0px;
 }
 
 .inputArea label{
@@ -88,7 +94,6 @@
 }
 
 .inputBox{
-  margin: 2%;
   width: 15vw;
   height: 5vh;
   border-radius: 15px;
@@ -103,6 +108,7 @@
   color: #413b3b;
   font-weight: bold;
   margin-right: 3%;
+  cursor:pointer;
 }
 
 .addButton{
@@ -113,6 +119,7 @@
   border: 1px solid gray;
   border-radius: 5px;
   transition: all 1.2s;
+  cursor: pointer;
 }
 
 .addButton:hover{
@@ -128,9 +135,12 @@
 }
 
 .errorMessage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  margin: 40px 33%;
   color: crimson;
+  padding: 3%;
   transition: all 0.8s;
 }
 
@@ -139,7 +149,8 @@
   justify-content: center;
   align-items: center;
   height: 40px;
-  width: 500px;
+  width: auto;
+  padding: 0px 50px;
   font-size: large;
   background: rgb(248, 255, 120);
   text-shadow: 1px 2px 2px #fff, -1px -1px 2px #fff;
@@ -148,6 +159,7 @@
 .weatherDetails{
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   margin: 25px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   border: 1px solid gray;
@@ -159,4 +171,68 @@
   font-weight: bold;
   color: red;
   cursor: pointer;
+}
+
+/* ============= Media Query ============= */
+
+@media (max-width:1000px) {
+  .weatherBox{
+    width: 70vw;
+  }
+}
+
+@media (max-width:800px) {
+  .btn{
+    font-size: 10px;
+    padding: 10px 0px;
+  } 
+  .weatherBox{
+    min-height: 55vh;
+  }
+}
+
+@media (max-width:700px) {
+  .btn{
+    width: 8vw;
+  }
+  .weatherDetails{
+    font-size: 12px;
+  }
+  .weatherDetails img{
+    height: 30px;
+  }
+  .weatherBox{
+    min-height: 50vh;
+  }
+}
+
+@media (max-width:600px) {
+  .btn,.inputBox{
+    height: 4vh;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width:500px) {
+  .inputArea label{
+    font-size: 15px;
+  }
+  .inputBox{
+    width: 11vw;
+    height: 3.5vh;
+  }
+  .btn{
+    height: 3.5vh;
+    width: 12vw;
+    font-size: 9px;
+    display: flex;
+  }
+  .addButton{
+    font-size: 15px;
+    height: 3vh;
+  }
+  .heading{
+    font-size: 20px;
+  }
 }

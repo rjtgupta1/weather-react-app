@@ -31,22 +31,32 @@ function App() {
       setIsBlank(true);
     }
   }
-
   async function addCityToDashboard() {
     if (!city) {
       setIsFetched(true);
       setIsBlank(true);
     } else {
-      const uri = `${api.base}?q=${city}&units=metric&appid=${api.key}`;
-      const response = await fetch(uri);
-      const data = await response.json();
-
-      if(data.name){
-        dispatch(addToDashBoard(city));
-        setIsBlank(false);
+      let isRepeated = false;
+      weatherData.map((data)=>{
+        if(data.name===city){
+          isRepeated = true;
+        }
+      })
+      
+      if(isRepeated){
+        alert('Location already added');
       }else{
-        setIsBlank(true);
-        setIsFetched(true);
+        const uri = `${api.base}?q=${city}&units=metric&appid=${api.key}`;
+        const response = await fetch(uri);
+        const data = await response.json();
+
+        if(data.name){
+          dispatch(addToDashBoard(city));
+          setIsBlank(false);
+        }else{
+          setIsBlank(true);
+          setIsFetched(true);
+        }
       }
     }
   }
@@ -63,13 +73,13 @@ function App() {
 
   return (
     <>
+      <div className="backgroundImage"></div>
       <div id="errorNotification" className="hideErrorMessage errorMessage">
         {" "}
         <p>Please enter correct city/town name</p>{" "}
       </div>
       <div className="container">
         <div className="weatherBox">
-          <div className="backgroundImage"></div>
           <h1 className="heading">Weather App</h1>
           <div className="inputArea">
             <label htmlFor="city">City Name : </label>
