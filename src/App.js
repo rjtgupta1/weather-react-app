@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addCity } from "./redux/weatherSlice";
+import { addToDashBoard } from "./redux/weatherSlice";
 import ShowDetails from "./components/ShowDetails";
 
 
@@ -16,7 +16,7 @@ function App() {
   const [isFetched, setIsFetched] = useState(false);
   const [isBlank, setIsBlank] = useState(false);
   const dispatch = useDispatch();
-  const cityData = useSelector((state) => state.cities);
+  const weatherData = useSelector((state) => state.weatherDetails);
 
   async function fetchData() {
     const uri = `${api.base}?q=${city}&units=metric&appid=${api.key}`;
@@ -32,13 +32,22 @@ function App() {
     }
   }
 
-  function addCityToDashboard() {
+  async function addCityToDashboard() {
     if (!city) {
       setIsFetched(true);
       setIsBlank(true);
     } else {
-      dispatch(addCity(city));
-      setIsBlank(false);
+      const uri = `${api.base}?q=${city}&units=metric&appid=${api.key}`;
+      const response = await fetch(uri);
+      const data = await response.json();
+
+      if(data.name){
+        dispatch(addToDashBoard(city));
+        setIsBlank(false);
+      }else{
+        setIsBlank(true);
+        setIsFetched(true);
+      }
     }
   }
 
@@ -49,6 +58,8 @@ function App() {
       item.classList.add("hideErrorMessage");
     }, 1200);
   }
+
+  // console.log(weatherData)
 
   return (
     <>
@@ -77,15 +88,15 @@ function App() {
           </div>
 
           {Object.keys(weather).length > 0 ||
-          Object.keys(cityData).length > 0 ? (
+          Object.keys(weatherData).length > 0 ? (
             <>
               {isFetched && weather.name ? (
-                <ShowDetails key={weather.id} {...weather} />
+                <ShowDetails key={weather.id} {...weather} isAdded={false} />
               ) : isBlank && isFetched ? (
                 <> {showErrorMessage()} </>
               ) : null}
-              {cityData.map((location) => {
-                return <ShowDetails key={location.id} {...location} />;
+              {weatherData.map((location) => {
+                return <ShowDetails key={location.id} {...location} isAdded={true} />;
               })}
 
               {isBlank && isFetched ? <> {showErrorMessage()} </> : null}
