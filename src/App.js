@@ -37,11 +37,12 @@ function App() {
       setIsBlank(true);
     } else {
       let isRepeated = false;
-      weatherData.map((data)=>{
+
+      weatherData.forEach(data => {
         if(data.name===city){
           isRepeated = true;
         }
-      })
+      });
       
       if(isRepeated){
         alert('Location already added');
