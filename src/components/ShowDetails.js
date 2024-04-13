@@ -18,8 +18,8 @@ const ShowDetails = (location) => {
     ?
     <div className="weatherDetails">
       <p> {location.location || location.name} </p>
-      <p> {location?.main ? location.main.temp + " ℃" : "32 "+ " ℃"} </p>
-      <p> {location?.weather ? location.weather[0].main : "Haze" } </p>
+      <p> {`${location.main.temp} ℃`} </p>
+      <p> {location.weather[0].main} </p>
         <img
         alt={location.weather[0].description}
         src={`https://openweathermap.org/img/wn/${location?.weather[0]?.icon}.png`}
